@@ -77,6 +77,9 @@ export default class BerlinMap{
             let bFeature = false;
             that.map.forEachFeatureAtPixel(evt.pixel,
             function(feature) {
+              if(feature.getGeometry().constructor == LineString){
+                return;
+              }
               bFeature = true;
               let text = "<h4>"+feature.attributes.Name+"</h4>\n";
               if(Object.keys(feature.attributes).length > 7){
