@@ -83,7 +83,7 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
             fromLonLat([lonlat["longitude"],lonlat["latitude"]])
         )
     });
-    if(obj["Besucht am"].length > 8){
+    if(obj["Besucht am"].length < 8){
       aNotBeen.push(oFeature);
     }else{
       aBeen.push(oFeature);
