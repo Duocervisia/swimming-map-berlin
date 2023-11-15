@@ -105,7 +105,6 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
           color = '#9999FF'
           break;
         default:
-          console.log(obj["Typ"])
           color = '#1940FF'
           break;
 
@@ -120,6 +119,7 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
     }
     let radius = 7
     let width = 1
+    console.log(window.mobileCheck())
 
     if(window.mobileCheck()){
       radius = 18
