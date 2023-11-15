@@ -120,8 +120,8 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
     }
     let radius = 7
     let width = 2
-
-    if(window.mobileCheck()){
+    console.log($(window).width())
+    if($(window).width() < 1200){
       radius = 18
       width = 3
     }
