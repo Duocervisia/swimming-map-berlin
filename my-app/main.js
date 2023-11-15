@@ -55,7 +55,6 @@ const map = new Map({
 
 $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv").done(function(result){
   let arr = result.split('\n'); 
-  console.log(arr)
 
   var jsonObj = [];
   var headers = arr[0].split('\t');
@@ -76,19 +75,15 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
   var aNotBeen = [];
   for (i=0; i< jsonObj.length; i++){
     var obj = jsonObj[i];
-    console.log(obj)
     
     const lonlat = dmsToDecimal(obj["Location"]);
-    console.log(lonlat, lonlat["Latitude"],lonlat["Longitude"])
-
     
-    console.log(obj, lonlat)
     var oFeature = new Feature({
         geometry: new Point(
             fromLonLat([lonlat["longitude"],lonlat["latitude"]])
         )
     });
-    if(obj["Besucht am"] == ""){
+    if(obj["Besucht am"].length > 8){
       aNotBeen.push(oFeature);
     }else{
       aBeen.push(oFeature);
