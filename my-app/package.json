@@ -10,6 +10,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
+    "is-mobile": "^4.0.0",
     "jquery": "^3.7.1",
     "ol": "latest"
   }
