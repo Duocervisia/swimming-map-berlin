@@ -91,7 +91,7 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
           color = '#00FFFF'
           break;
         case "Kombibad":
-          color = '#33FFDD'
+          color = '#e337de'
           break;
         case "Freibad":
           color = '#9999FF'
