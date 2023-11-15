@@ -39,6 +39,11 @@ body{
 .legend-element{
   display: flex;
   align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+.legend-element[disabled]{
+  opacity: 0.3;
 }
 .ball{
   width: 1em;

@@ -1,7 +1,21 @@
 import './style.css';
 import BerlinMap from './berlinMap.js'
+import Frontend from './frontend.js'
 
-let berlinMap = new BerlinMap();
+export default class Main{
+  frontend
+  berlinMap
+
+  constructor(){
+    this.frontend = new Frontend(this);
+    this.berlinMap = new BerlinMap(this);
+    this.berlinMap.load();
+  }
+}
+
+new Main();
+
+
 
 window.mobileCheck = function() {
   let check = false;

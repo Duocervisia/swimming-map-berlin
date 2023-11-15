@@ -9,23 +9,31 @@ import {Point, LineString} from 'ol/geom.js';
 import $ from "jquery";
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Overlay from 'ol/Overlay.js';
-import {getDistance} from 'ol/sphere';
 import Helper from './helper.js';
 
 export default class BerlinMap{
     map
     source
     popupOverlay
+    main
 
     peoplePoints
     peopleLines = [];
+    placesPoints = [];
+    shortestPeopleDistance = {
+      index: null,
+      distance: null
+    }
 
-    constructor(){
-        this.init();
-        this.setEvents();
-        this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv")
-        this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vTHc-Y2YKfzWK8-ODpWG8kBFfObE8DK57Jh6tLc2weQeGR6yU84PgGJkSKyCwsc9dGX1QKD8Dlb28Sw/pub?gid=0&single=true&output=tsv", true)
-
+    constructor(main){
+      this.main = main;
+      this.init();
+      this.setEvents();
+       
+    }
+    async load(){
+      await this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vTHc-Y2YKfzWK8-ODpWG8kBFfObE8DK57Jh6tLc2weQeGR6yU84PgGJkSKyCwsc9dGX1QKD8Dlb28Sw/pub?gid=0&single=true&output=tsv", true)
+      await this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv")
     }
     init(){
         const raster = new TileLayer({
@@ -99,11 +107,15 @@ export default class BerlinMap{
                 text += "<p>Typ: " +feature.attributes.Typ +"</p>";
                 text += "<p>Gebaut: " +feature.attributes["ab Jahr"] +"</p>";
                 text += "<p>Bahnlänge: " +feature.attributes["Bahnlänge"] +"</p><br>";
+                let totalLength = 0;
                 that.peoplePoints.forEach(peopleFeature => {
                   let lineFeature = that.addLineBetweenPoints([peopleFeature.getGeometry().getCoordinates(), feature.getGeometry().getCoordinates()])
                   text += "<p>" +peopleFeature.attributes.Name +": "+ Helper.meterFormatter(lineFeature.getGeometry().getLength()) +"</p>";
                   that.peopleLines.push(lineFeature);
+                  totalLength += lineFeature.getGeometry().getLength();
                 });
+                text += "<p><b>Summe: " +Helper.meterFormatter(totalLength) +"</b></p>";
+
               }
               $('.custom-popup')[0].innerHTML = text;
               $('.custom-popup')[0].hidden = false;
@@ -137,9 +149,9 @@ export default class BerlinMap{
       return featureLine;
     }
 
-    loadData(link, people=false){
+    async loadData(link, people=false){
       let that = this;
-        $.ajax(link).done(function(result){
+      return $.ajax(link).done(function(result){
           let arr = result.split('\n'); 
         
           var jsonObj = [];
@@ -176,35 +188,28 @@ export default class BerlinMap{
           
             let color;
               if(obj["Besucht am"].length < 8){
-                switch(obj["Typ"]){
-                  case "Hallenbad":
-                    color = '#00FFFF'
-                    break;
-                  case "Kombibad":
-                    color = '#e337de'
-                    break;
-                  case "Freibad":
-                    color = '#9999FF'
-                    break;
-                  default:
-                    color = '#1940FF'
-                    break;
-                }
+                color = that.main.frontend.getColorByType(obj["Typ"])
               }else{
                 if(mostRecentIndex == null || Helper.parseDateString(obj["Besucht am"]) > Helper.parseDateString(jsonObj[mostRecentIndex]["Besucht am"])){
                   mostRecentIndex = i
                 }
-                color = '#00E626';
+                color = that.main.frontend.getColorByType("Besucht")
                 been++;
               } 
+
+              oFeature.attributes = obj;
+              that.addTotalLengthAttribute(oFeature, i);
               
               oFeature.setStyle(that.getPointStyle(radius, color, width));
               oFeature.attributes = obj;
               aFeatures.push(oFeature)
             }
+            that.placesPoints = aFeatures;
             $('#visited-pool-count').text(been);
             $('#all-pool-count').text(jsonObj.length);
             $('#last-visited-pool').text(jsonObj[mostRecentIndex]["Name"] + " am " + jsonObj[mostRecentIndex]["Besucht am"]);
+            that.setShortestPeopleDistance();
+            
           }else{
             for (var i=0; i< jsonObj.length; i++){
               var obj = jsonObj[i];
@@ -215,7 +220,7 @@ export default class BerlinMap{
                   )
               });
           
-              let color = "#ffa500";
+              let color = that.main.frontend.getColorByType("Menschen");
              
               oFeature.setStyle(that.getPointStyle(radius, color, width));
               oFeature.attributes = obj;
@@ -226,6 +231,27 @@ export default class BerlinMap{
           that.source.addFeatures(aFeatures);
         
         });
+    }
+
+    addTotalLengthAttribute(feature, index){
+      let totalLength = 0;
+      this.peoplePoints.forEach(peopleFeature => {
+        let lineFeature = new LineString([peopleFeature.getGeometry().getCoordinates(), feature.getGeometry().getCoordinates()])
+        totalLength += lineFeature.getLength();
+      });
+      feature.attributes.totalLength = totalLength
+    }
+
+    setShortestPeopleDistance(){
+      let that = this;
+      let i = 0;
+      that.placesPoints.forEach(element => {
+        if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
+          that.shortestPeopleDistance.index = i
+          that.shortestPeopleDistance.distance = element.attributes.totalLength
+        }
+        i++;
+      });
     }
 
     getPointStyle(radius, color, width){
