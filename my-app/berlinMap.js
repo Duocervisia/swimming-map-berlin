@@ -61,6 +61,8 @@ export default class BerlinMap{
     }
     setEvents(){
         let that = this;
+        let inTooltipElement = false;
+
 
         this.map.on('pointermove', (evt) => {
             checkPopup(evt)
@@ -70,9 +72,9 @@ export default class BerlinMap{
           that.peopleLines.forEach(line => {
             that.source.removeFeature(line);
           });
+          inTooltipElement = false;
             checkPopup(evt)
         });
-        let inTooltipElement = false;
 
 
         function checkPopup(evt){
