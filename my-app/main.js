@@ -9,6 +9,7 @@ import {get, transform, fromLonLat} from 'ol/proj.js';
 import {Point} from 'ol/geom.js';
 import $ from "jquery";
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
+import Overlay from 'ol/Overlay.js';
 
 window.mobileCheck = function() {
   let check = false;
@@ -41,11 +42,18 @@ const map = new Map({
   }),
 });
 
+let popupOverlay = new Overlay({
+  element: $('.custom-popup')[0],
+  offset: [9, 9]
+});
+map.addOverlay(popupOverlay);
+
+map.on('pointermove', (evt) => {
+ checkPopup(evt)
+});
+
 map.on('click', function(evt) {
-  map.forEachFeatureAtPixel(evt.pixel,
-    function(feature) {
-      $('#clicked-pool').text(feature.attributes.Name);
-    })
+  checkPopup(evt)
 });
 
 $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv").done(function(result){
@@ -182,4 +190,30 @@ function parseDateString(dateString) {
   const parsedDate = new Date(year, month - 1, day, hour, minute);
 
   return parsedDate;
+}
+function checkPopup(evt){
+  let bFeature = false;
+  map.forEachFeatureAtPixel(evt.pixel,
+  function(feature) {
+    bFeature = true;
+    let text = "<h4>"+feature.attributes.Name+"</h4>\n";
+    if(feature.attributes["Besucht am"].length >= 8){
+      text += "<p><b>Besucht am: " +feature.attributes["Besucht am"] +"</b></p>";
+    }
+    text += "<p>Typ: " +feature.attributes.Typ +"</p>";
+    text += "<p>Gebaut: " +feature.attributes["ab Jahr"] +"</p>";
+    text += "<p>Bahnlänge: " +feature.attributes["Bahnlänge"] +"</p>";
+
+    $('.custom-popup')[0].innerHTML = text;
+    $('.custom-popup')[0].hidden = false;
+    popupOverlay.setPosition(evt.coordinate);
+  },
+  { layerFilter: (layer) => {
+      return (layer.type === new VectorLayer().type) ? true : false;
+  }, hitTolerance: 6 })
+
+  if(!bFeature){
+    $('.custom-popup')[0].innerHTML = '';
+    $('.custom-popup')[0].hidden = true;
+  }
 }
