@@ -25,6 +25,9 @@ export default class BerlinMap{
       distance: null
     }
 
+    pointRadius = $(window).width() < 1200 ? 18 : 7
+    pointBorderWidth = $(window).width() < 1200 ? 3 : 2
+
     constructor(main){
       this.main = main;
       this.init();
@@ -170,9 +173,6 @@ export default class BerlinMap{
       
           var aFeatures = [];
       
-          let radius = $(window).width() < 1200 ? 18 : 7
-          let width = $(window).width() < 1200 ? 3 : 2
-      
           if(!people){
             var been = 0;
             let mostRecentIndex = null;
@@ -200,7 +200,7 @@ export default class BerlinMap{
               oFeature.attributes = obj;
               that.addTotalLengthAttribute(oFeature, i);
               
-              oFeature.setStyle(that.getPointStyle(radius, color, width));
+              oFeature.setStyle(that.getPointStyle(color));
               oFeature.attributes = obj;
               aFeatures.push(oFeature)
             }
@@ -222,7 +222,7 @@ export default class BerlinMap{
           
               let color = that.main.frontend.getColorByType("Menschen");
              
-              oFeature.setStyle(that.getPointStyle(radius, color, width));
+              oFeature.setStyle(that.getPointStyle(color));
               oFeature.attributes = obj;
               aFeatures.push(oFeature)
             }
@@ -246,24 +246,27 @@ export default class BerlinMap{
       let that = this;
       let i = 0;
       that.placesPoints.forEach(element => {
-        if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
-          that.shortestPeopleDistance.index = i
-          that.shortestPeopleDistance.distance = element.attributes.totalLength
+        if(element.attributes["Besucht am"].length < 8){
+          if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
+            that.shortestPeopleDistance.index = i
+            that.shortestPeopleDistance.distance = element.attributes.totalLength
+          }
         }
         i++;
       });
+      this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(this.main.frontend.getColorByType("Am nächsten Unbesucht")));
     }
 
-    getPointStyle(radius, color, width){
+    getPointStyle(color){
       return new Style({
         image: new CircleStyle({
-          radius: radius,
+          radius: this.pointRadius,
           fill: new Fill({
             color: color,
           }),
           stroke: new Stroke({
             color: '#202124',
-            width: width,
+            width: this.pointBorderWidth,
           }),
         }),
       });

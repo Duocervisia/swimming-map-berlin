@@ -15,6 +15,11 @@ export default class Frontend{
             enabled: true
         },
         {
+            typ: "Am nächsten Unbesucht",
+            color: "#ff0000",
+            enabled: true
+        },
+        {
             typ: "Hallenbad",
             color: "#00FFFF",
             enabled: true
