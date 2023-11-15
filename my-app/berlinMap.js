@@ -27,6 +27,7 @@ export default class BerlinMap{
 
     pointRadius = $(window).width() < 1200 ? 18 : 7
     pointBorderWidth = $(window).width() < 1200 ? 3 : 2
+    lineThinkness = $(window).width() < 1200 ? 8 : 4
 
     constructor(main){
       this.main = main;
@@ -126,7 +127,7 @@ export default class BerlinMap{
             },
             { layerFilter: (layer) => {
                 return (layer.type === new VectorLayer().type) ? true : false;
-            }, hitTolerance: 3})
+            }, hitTolerance: 0})
           
             if(!bFeature){
               if(!inTooltipElement){
@@ -199,9 +200,10 @@ export default class BerlinMap{
 
               oFeature.attributes = obj;
               that.addTotalLengthAttribute(oFeature, i);
-              
               oFeature.setStyle(that.getPointStyle(color));
               oFeature.attributes = obj;
+              oFeature.attributes.color = color
+              oFeature.attributes.enabled = true
               aFeatures.push(oFeature)
             }
             that.placesPoints = aFeatures;
@@ -221,9 +223,13 @@ export default class BerlinMap{
               });
           
               let color = that.main.frontend.getColorByType("Menschen");
+
              
               oFeature.setStyle(that.getPointStyle(color));
               oFeature.attributes = obj;
+              oFeature.attributes.color = color
+              oFeature.attributes.enabled = true
+
               aFeatures.push(oFeature)
             }
             that.peoplePoints = aFeatures;
@@ -245,8 +251,11 @@ export default class BerlinMap{
     setShortestPeopleDistance(){
       let that = this;
       let i = 0;
+      that.shortestPeopleDistance.index = null;
+      that.shortestPeopleDistance.distance = null;
+
       that.placesPoints.forEach(element => {
-        if(element.attributes["Besucht am"].length < 8){
+        if(element.attributes["Besucht am"].length < 8 && element.attributes.enabled){
           if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
             that.shortestPeopleDistance.index = i
             that.shortestPeopleDistance.distance = element.attributes.totalLength
@@ -254,7 +263,10 @@ export default class BerlinMap{
         }
         i++;
       });
-      this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(this.main.frontend.getColorByType("Am nächsten Unbesucht")));
+      if(that.shortestPeopleDistance.index !== null){
+        let color = this.main.frontend.getColorByType("Am nächsten Unbesucht")
+        this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
+      }
     }
 
     getPointStyle(color){
@@ -273,9 +285,22 @@ export default class BerlinMap{
     }
     getLineStyle(){
       return new Style({
-        fill: new Fill({ color: '#ab2e2e', weight: 4 }),
-        stroke: new Stroke({ color: '#ab2e2e', width: 4, lineDash: [0, 6]})
+        fill: new Fill({ color: '#ab2e2e', weight: this.lineThinkness }),
+        stroke: new Stroke({ color: '#ab2e2e', width: this.lineThinkness, lineDash: [0, this.lineThinkness* 1.5]})
       });
+    }
+
+    selectorChanged(){
+      this.placesPoints.forEach(element => {
+        if(this.main.frontend.isTypeEnabled(element.attributes["Typ"])){
+          element.setStyle(this.getPointStyle(element.attributes["color"]));
+          element.attributes.enabled = true;
+        }else{
+          element.setStyle(new Style({}));
+          element.attributes.enabled = false;
+        }
+      });
+      this.setShortestPeopleDistance();
     }
       
 }
