@@ -3,10 +3,54 @@
 html, body {
   margin: 0;
   height: 100%;
+  background-color: #202124;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  @media (pointer:none), (pointer:coarse) {
+    font-size: 1.3em;
+  }
+}
+body{
+  display: flex;
+  flex-direction: column;
 }
 #map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   width: 100%;
+  height: 69%;
 }
+.custom-wrapper{
+  flex: 1;
+  padding: 1em;
+  display: flex;
+  @media (pointer:none), (pointer:coarse) {
+    flex-direction: column;
+  }
+}
+.custom-wrapper > * {
+  flex: 1;
+  @media (pointer:none), (pointer:coarse) {
+    flex: unset;
+  }
+}
+#clicked-pool{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #202124;
+  padding: 1em;
+  @media (pointer:none), (pointer:coarse) {
+    padding-left: 2em;
+  }
+  border-top-right-radius: 10px;
+}
+.legend-element{
+  display: flex;
+  align-items: center;
+}
+.ball{
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  flex-shrink: 0;
+}
+
