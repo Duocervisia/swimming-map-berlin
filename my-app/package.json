@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "jquery": "^3.7.1",
-    "mobile-device-detect": "^0.4.3",
     "ol": "latest"
   }
 }

@@ -10,7 +10,6 @@ import {Point} from 'ol/geom.js';
 import $ from "jquery";
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Overlay from 'ol/Overlay.js';
-import { isMobile } from 'mobile-device-detect';
 
 
 window.mobileCheck = function() {
@@ -121,8 +120,6 @@ $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1Jmnib
     }
     let radius = 7
     let width = 1
-
-    console.log(isMobile)
 
     if(window.mobileCheck()){
       radius = 18
