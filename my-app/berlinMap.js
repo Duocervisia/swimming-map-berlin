@@ -72,15 +72,23 @@ export default class BerlinMap{
           });
             checkPopup(evt)
         });
+        let inTooltipElement = false;
+
 
         function checkPopup(evt){
-            let bFeature = false;
-            that.map.forEachFeatureAtPixel(evt.pixel,
-            function(feature) {
-              if(feature.getGeometry().constructor == LineString){
+          let bFeature = false;
+
+            that.map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+              bFeature = true;
+              if(feature.getGeometry().constructor == LineString ){
                 return;
               }
-              bFeature = true;
+              if(inTooltipElement){
+                that.popupOverlay.setPosition(evt.coordinate);
+                return;
+              }
+              inTooltipElement = true;
+
               let text = "<h4>"+feature.attributes.Name+"</h4>\n";
               if(Object.keys(feature.attributes).length > 7){
                 if(feature.attributes["Besucht am"].length >= 8){
@@ -101,9 +109,15 @@ export default class BerlinMap{
             },
             { layerFilter: (layer) => {
                 return (layer.type === new VectorLayer().type) ? true : false;
-            }, hitTolerance: 6 })
+            }, hitTolerance: 3})
           
             if(!bFeature){
+              if(!inTooltipElement){
+                return;
+              }
+
+              inTooltipElement = false;
+             
               $('.custom-popup')[0].innerHTML = '';
               $('.custom-popup')[0].hidden = true;
               that.peopleLines.forEach(line => {
