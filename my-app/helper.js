@@ -1,4 +1,4 @@
-class Helper{
+export default class Helper{
   static parseDateString(dateString) {
     // Split the string into date and time parts
     const [datePart, timePart] = dateString.split(' ');

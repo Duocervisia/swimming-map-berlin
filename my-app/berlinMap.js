@@ -10,6 +10,7 @@ import $ from "jquery";
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Overlay from 'ol/Overlay.js';
 import {getDistance} from 'ol/sphere';
+import Helper from './helper.js';
 
 export default class BerlinMap{
     map
@@ -114,7 +115,6 @@ export default class BerlinMap{
       });
       featureLine.setStyle(this.getLineStyle());
       this.source.addFeature(featureLine);
-      console.log(featureLine)
       return featureLine;
     }
 
