@@ -7,6 +7,8 @@ import {OSM, Vector as VectorSource} from 'ol/source.js';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 import {get, transform, fromLonLat} from 'ol/proj.js';
 import {Point} from 'ol/geom.js';
+import $ from "jquery";
+
 
 const raster = new TileLayer({
   source: new OSM(),
