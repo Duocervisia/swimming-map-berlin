@@ -3,7 +3,9 @@ import View from 'ol/View.js';
 import Feature from 'ol/Feature.js';
 import {Draw, Modify, Snap} from 'ol/interaction.js';
 import {OSM, Vector as VectorSource} from 'ol/source.js';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
+import StadiaMaps from 'ol/source/StadiaMaps.js';
+
+import {Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js';
 import {get, transform, fromLonLat, Projection} from 'ol/proj.js';
 import {Point, LineString} from 'ol/geom.js';
 import $ from "jquery";
@@ -40,9 +42,21 @@ export default class BerlinMap{
       await this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv")
     }
     init(){
-        const raster = new TileLayer({
+        const raster = [
+          new TileLayer({
             source: new OSM(),
-        });
+            // source: new StadiaMaps({
+            //   layer: 'stamen_watercolor',
+            //   // apiKey: 'OPTIONAL'
+            // }),
+          }),
+          // new TileLayer({
+          //   source: new StadiaMaps({
+          //     layer: 'stamen_terrain_labels',
+          //     // apiKey: 'OPTIONAL'
+          //   }),
+          // })
+        ] 
           
         this.source = new VectorSource();
         const vector = new VectorLayer({
@@ -54,13 +68,14 @@ export default class BerlinMap{
         const extent = get('EPSG:3857').getExtent().slice();
         extent[0] += extent[0];
         extent[2] += extent[2];
+        console.log(extent)
         const map = new Map({
-            layers: [raster, vector],
+            layers: raster.concat([vector]),
             target: 'map',
             view: new View({
                 center: transform([13.414951, 52.507783], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 11,
-                extent,
+                // extent,
             }),
         });
 
