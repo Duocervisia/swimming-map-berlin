@@ -268,6 +268,7 @@ export default class BerlinMap{
       if(that.shortestPeopleDistance.index !== null){
         let color = this.main.frontend.getColorByType("Am nächsten Unbesucht")
         this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
+        $('#next-visit-pool').text(this.placesPoints[that.shortestPeopleDistance.index].attributes["Name"]);
       }
     }
 
