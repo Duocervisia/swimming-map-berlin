@@ -186,6 +186,8 @@ export default class BerlinMap{
                       fromLonLat([lonlat["longitude"],lonlat["latitude"]]),
                   )
               });
+            oFeature.attributes = obj;
+
           
             let color;
               if(obj["Besucht am"].length < 8){
@@ -195,13 +197,13 @@ export default class BerlinMap{
                   mostRecentIndex = i
                 }
                 color = that.main.frontend.getColorByType("Besucht")
+                oFeature.attributes.visited = true;
+
                 been++;
               } 
 
-              oFeature.attributes = obj;
               that.addTotalLengthAttribute(oFeature, i);
               oFeature.setStyle(that.getPointStyle(color));
-              oFeature.attributes = obj;
               oFeature.attributes.color = color
               oFeature.attributes.enabled = true
               aFeatures.push(oFeature)
@@ -292,9 +294,13 @@ export default class BerlinMap{
 
     selectorChanged(){
       this.placesPoints.forEach(element => {
-        if(this.main.frontend.isTypeEnabled(element.attributes["Typ"])){
+        if(this.main.frontend.isTypeEnabled(element.attributes["Typ"]) && element.attributes.visited === undefined){
           element.setStyle(this.getPointStyle(element.attributes["color"]));
           element.attributes.enabled = true;
+        }else if(element.attributes.visited !== undefined && element.attributes.visited && this.main.frontend.isTypeEnabled("Besucht")){
+          console.log(element.attributes["Typ"])
+          element.setStyle(this.getPointStyle(element.attributes["color"]));
+        
         }else{
           element.setStyle(new Style({}));
           element.attributes.enabled = false;
