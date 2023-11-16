@@ -86,16 +86,28 @@ export default class Frontend{
             that.main.berlinMap.selectorChanged();
             that.updateElements();
         });
-        $(".arrow").on( "click", function() {
-            if ($(this).find('.arrow-mask').hasClass("top")) {
-                $(this).find('.arrow-mask').removeClass("top")
+        $('.arrow').on('click', function() {
+            console.log($(this).hasClass("active"))
+            if ($(this).hasClass("active")) {
+                console.log(1)
                 $(".stats-content-wrapper").attr("disabled", "")
             }else{
-                $(this).find('.arrow-mask').addClass("top")
-                $(".stats-content-wrapper").removeAttr("disabled")
 
+                $(".stats-content-wrapper").removeAttr("disabled")
             }
+            $(this).toggleClass('active');
+
         });
+        // $(".arrow").on( "click", function() {
+        //     if ($(this).find('.arrow-mask').hasClass("top")) {
+        //         $(this).find('.arrow-mask').removeClass("top")
+        //         $(".stats-content-wrapper").attr("disabled", "")
+        //     }else{
+        //         $(this).find('.arrow-mask').addClass("top")
+        //         $(".stats-content-wrapper").removeAttr("disabled")
+
+        //     }
+        // });
     }
     getColorByType(typ){
         let color = null;

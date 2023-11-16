@@ -1,4 +1,5 @@
 import './style.css';
+import './arrow.css';
 import BerlinMap from './berlinMap.js'
 import Frontend from './frontend.js'
 
