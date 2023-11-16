@@ -36,6 +36,18 @@ body{
     flex: unset;
   }
 }
+.legend{
+  @media only screen and (max-device-width: 768px) {
+    font-size: 1.5em;
+  }
+}
+.legend-element-wrapper{
+  @media only screen and (max-device-width: 768px) {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+  }
+}
 .legend-element{
   display: flex;
   align-items: center;

@@ -8,37 +8,44 @@ export default class Frontend{
         {
             typ: "Menschen",
             color: "#ffa500aa",
-            enabled: true
+            enabled: true,
+            special: true
         },
         {
             typ: "Besucht",
             color: "#00E626aa",
-            enabled: true
+            enabled: true,
+            special: true
         },
         {
             typ: "Am nächsten Unbesucht",
             color: "#ff0000aa",
-            enabled: true
+            enabled: true,
+            special: true
         },
         {
             typ: "Hallenbad",
             color: "#00FFFFaa",
-            enabled: true
+            enabled: true,
+            special: false
         },
         {
             typ: "Kombibad",
             color: "#e337deaa",
-            enabled: true
+            enabled: true,
+            special: false
         },
         {
             typ: "Freibad",
             color: "#9999FFaa",
-            enabled: true
+            enabled: true,
+            special: false
         },
         {
             typ: "See",
             color: "#1940FFaa",
-            enabled: true
+            enabled: true,
+            special: false
         },
     ]
 
@@ -51,7 +58,11 @@ export default class Frontend{
 
         let i = 0;
         this.legend.forEach(element => {
-            that.legendElement.append('<div class="legend-element" index="'+ i +'"><div class="ball" style="background-color: '+ element.color +';"></div>: '+ element.typ +'</div>');
+            if(element.special){
+                that.legendElement.find(".special").append('<div class="legend-element" index="'+ i +'"><div class="ball" style="background-color: '+ element.color +';"></div>: '+ element.typ +'</div>');
+            }else{
+                that.legendElement.find(".normal").append('<div class="legend-element" index="'+ i +'"><div class="ball" style="background-color: '+ element.color +';"></div>: '+ element.typ +'</div>');
+            }
             i++;
         });
 
