@@ -16,7 +16,11 @@ body{
 }
 .map-wrapper {
   width: 100%;
-  height: 69%;
+  height: 100%;
+
+  @media only screen and (max-device-width: 768px) {
+    height: 69%;
+  }
 }
 .map{
   width: 100%;
@@ -26,8 +30,16 @@ body{
   flex: 1;
   padding: 1em;
   display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  background-color: #202124;
+  border-bottom-left-radius: 10px;
   @media only screen and (max-device-width: 768px) {
-    flex-direction: column;
+    position: relative;
+    border-bottom-left-radius: unset;
+
   }
 }
 .custom-wrapper > * {
@@ -42,11 +54,11 @@ body{
   }
 }
 .legend-element-wrapper{
-  @media only screen and (max-device-width: 768px) {
+ 
     display: flex;
     flex-grow: 1;
     justify-content: space-around;
-  }
+  
 }
 .legend-element{
   display: flex;
@@ -75,5 +87,52 @@ body{
 }
 .custom-popup p{
   margin: 0;
+}
+.stats{
+  display: flex;
+  flex-direction: column;
+}
+.stats-content-wrapper{
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.5s ease-in-out;
+}
+.stats-content-wrapper > *{
+  overflow: hidden;
+}
+.stats-content-wrapper[disabled]{
+  grid-template-rows: 0fr;
+}
+.stats-content-button{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow {
+  width: 1em;
+  height: 1em;
+  background-color: white;
+  transform: translate(-50%, -50%) rotate(45deg);
+  cursor: pointer;
+  top: 50%;
+  position: absolute;
+}
+
+.arrow-mask {
+  width: 100%;
+  height: 100%;
+  background-color: #202124;
+  position: absolute;
+  left: -15%;
+  top: -15%;
+  right: 0%;
+  bottom: 0%;
+  transition: top 0.5s ease-in-out, left 0.5s ease-in-out;
+}
+.arrow-mask.top{
+  left: 15%;
+  top: 15%;
 }
 
