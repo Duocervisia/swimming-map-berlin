@@ -6,14 +6,18 @@ html, body {
   background-color: #202124;
   color: white;
   font-family: 'Roboto', sans-serif;
-  @media only screen and (max-device-width: 768px) {
-    font-size: 1.3em;
-  }
+ 
 }
 body{
   display: flex;
   flex-direction: column;
+  @media only screen and (max-device-width: 768px) {
+    font-size: 1.9em;
+  }
 }
+/* h3{
+  margin: .5em 0
+} */
 .map-wrapper {
   width: 100%;
   height: 100%;
@@ -30,6 +34,7 @@ body{
   flex: 1;
   padding: 1em;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   position: absolute;
   right: 0;
@@ -46,11 +51,6 @@ body{
   flex: 1;
   @media only screen and (max-device-width: 768px) {
     flex: unset;
-  }
-}
-.legend{
-  @media only screen and (max-device-width: 768px) {
-    font-size: 1.5em;
   }
 }
 .legend-element-wrapper{
@@ -117,6 +117,10 @@ body{
 .arrow {
   width: 1em;
   height: 1em;
+  @media only screen and (max-device-width: 768px) {
+    width: 1.5em;
+    height: 1.5em;
+  }
   background-color: white;
   transform: translate(-50%, -50%) rotate(45deg);
   cursor: pointer;
