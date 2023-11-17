@@ -10,7 +10,7 @@ export default class JsonLoader{
         this.main = main;
         let that = this;
 
-        $.getJSON( "data.json", function( data ) {
+        $.getJSON( "assets/data.json", function( data ) {
             that.data = data
             that.main.frontend = new Frontend(that.main);
             that.main.berlinMap = new BerlinMap(that.main);

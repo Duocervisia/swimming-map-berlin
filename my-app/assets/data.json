@@ -1,0 +1,90 @@
+{
+    "legend": [
+        {
+            "typ": "Menschen",
+            "color": "#ffa500aa",
+            "enabled": true,
+            "special": true
+        },
+        {
+            "typ": "Besucht",
+            "color": "#00E626aa",
+            "enabled": true,
+            "special": true
+        },
+        {
+            "typ": "Am nächsten Unbesucht",
+            "color": "#ff0000aa",
+            "enabled": true,
+            "special": true
+        },
+        {
+            "typ": "Hallenbad",
+            "color": "#00FFFFaa",
+            "enabled": true,
+            "special": false
+        },
+        {
+            "typ": "Kombibad",
+            "color": "#e337deaa",
+            "enabled": true,
+            "special": false
+        },
+        {
+            "typ": "Freibad",
+            "color": "#9999FFaa",
+            "enabled": true,
+            "special": false
+        },
+        {
+            "typ": "See",
+            "color": "#1940FFaa",
+            "enabled": true,
+            "special": false
+        }
+    ],
+    "map" : {
+        "center": [13.414951, 52.507783],
+        "zoom" : 11
+    },
+    "person": {
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHc-Y2YKfzWK8-ODpWG8kBFfObE8DK57Jh6tLc2weQeGR6yU84PgGJkSKyCwsc9dGX1QKD8Dlb28Sw/pub?gid=0&single=true&output=tsv",
+        "name": {
+            "field": "Name"
+        },
+        "location": {
+            "field": "Location"
+        }
+    },
+    "points" : {
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv",
+        "tooltip": {
+            "fieldsToShow":[
+                {
+                    "field": "Typ",
+                    "shownName": "Typ"
+                },
+                {
+                    "field": "ab Jahr",
+                    "shownName": "Gebaut"
+                },
+                {
+                    "field": "Bahnlänge",
+                    "shownName": "Bahnlänge"
+                }
+            ]
+        },
+        "location": {
+            "field": "Location"
+        },
+        "date": {
+            "field": "Besucht am",
+            "shownName": "Besucht am",
+            "legendType": "Besucht"
+        },
+        "name": {
+            "field": "Name"
+        }
+    }
+    
+}

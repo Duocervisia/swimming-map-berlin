@@ -38,8 +38,8 @@ export default class BerlinMap{
        
     }
     async load(){
-      await this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vTHc-Y2YKfzWK8-ODpWG8kBFfObE8DK57Jh6tLc2weQeGR6yU84PgGJkSKyCwsc9dGX1QKD8Dlb28Sw/pub?gid=0&single=true&output=tsv", true)
-      await this.loadData("https://docs.google.com/spreadsheets/d/e/2PACX-1vQBWDJ224e-Sf3UsyF1JmnibkFlGZK8Fuh-hh9tBMCP_A4gIZ-ZdIYflLdpEY12jDjeZevyuCMQKI5F/pub?gid=2050467191&single=true&output=tsv")
+      await this.loadData(this.main.jsonLoader.data.person.url, true)
+      await this.loadData(this.main.jsonLoader.data.points.url)
     }
     init(){
         const raster = [
@@ -67,8 +67,8 @@ export default class BerlinMap{
             layers: raster.concat([vector]),
             target: 'map',
             view: new View({
-                center: transform([13.414951, 52.507783], 'EPSG:4326', 'EPSG:3857'),
-                zoom: 11,
+                center: transform(this.main.jsonLoader.data.map.center, 'EPSG:4326', 'EPSG:3857'),
+                zoom: this.main.jsonLoader.data.map.zoom,
             }),
         });
 
@@ -101,24 +101,26 @@ export default class BerlinMap{
           let bFeature = false;
 
             that.map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-              bFeature = true;
               if(feature.getGeometry().constructor == LineString ){
                 return;
               }
+              bFeature = true;
               if(inTooltipElement){
                 that.popupOverlay.setPosition(evt.coordinate);
                 return;
               }
               inTooltipElement = true;
+              let text;
 
-              let text = "<h4>"+feature.attributes.Name+"</h4>\n";
-              if(Object.keys(feature.attributes).length > 7){
-                if(feature.attributes["Besucht am"].length >= 8){
-                  text += "<p><b>Besucht am: " +feature.attributes["Besucht am"] +"</b></p>";
+              if(feature.attributes[that.main.jsonLoader.data.points.date.field] !== undefined){
+                text = "<h4>"+feature.attributes[that.main.jsonLoader.data.points.name.field]+"</h4>\n";
+                if(feature.attributes[that.main.jsonLoader.data.points.date.field].length >= 8){
+                  text += "<p><b>"+ that.main.jsonLoader.data.points.date.shownName +": " +feature.attributes[that.main.jsonLoader.data.points.date.field] +"</b></p>";
                 }
-                text += "<p>Typ: " +feature.attributes.Typ +"</p>";
-                text += "<p>Gebaut: " +feature.attributes["ab Jahr"] +"</p>";
-                text += "<p>Bahnlänge: " +feature.attributes["Bahnlänge"] +"</p><br>";
+                that.main.jsonLoader.data.points.tooltip.fieldsToShow.forEach(element => {
+                  text += "<p>"+ element.shownName +": " +feature.attributes[element.field] +"</p>";
+                });
+                text += "<br>";
                 let totalLength = 0;
                 that.peoplePoints.forEach(peopleFeature => {
                   let lineFeature = that.addLineBetweenPoints([peopleFeature.getGeometry().getCoordinates(), feature.getGeometry().getCoordinates()])
@@ -128,6 +130,8 @@ export default class BerlinMap{
                 });
                 text += "<p><b>Summe: " +Helper.meterFormatter(totalLength) +"</b></p>";
 
+              }else{
+                text = "<h4>"+feature.attributes[that.main.jsonLoader.data.person.name.field]+"</h4>\n";
               }
               $('.custom-popup')[0].innerHTML = text;
               $('.custom-popup')[0].hidden = false;
@@ -188,7 +192,7 @@ export default class BerlinMap{
           
             for (var i=0; i< jsonObj.length; i++){
               var obj = jsonObj[i];
-              const lonlat = Helper.dmsToDecimal(obj["Location"]);
+              const lonlat = Helper.dmsToDecimal(obj[that.main.jsonLoader.data.points.location.field]);
               var oFeature = new Feature({
                   geometry: new Point(
                       fromLonLat([lonlat["longitude"],lonlat["latitude"]]),
@@ -198,13 +202,13 @@ export default class BerlinMap{
 
           
             let color;
-              if(obj["Besucht am"].length < 8){
+              if(obj[that.main.jsonLoader.data.points.date.field].length < 8){
                 color = that.main.frontend.getColorByType(obj["Typ"])
               }else{
-                if(mostRecentIndex == null || Helper.parseDateString(obj["Besucht am"]) > Helper.parseDateString(jsonObj[mostRecentIndex]["Besucht am"])){
+                if(mostRecentIndex == null || Helper.parseDateString(obj[that.main.jsonLoader.data.points.date.field]) > Helper.parseDateString(jsonObj[mostRecentIndex]["Besucht am"])){
                   mostRecentIndex = i
                 }
-                color = that.main.frontend.getColorByType("Besucht")
+                color = that.main.frontend.getColorByType(that.main.jsonLoader.data.points.date.legendType)
                 oFeature.attributes.visited = true;
 
                 been++;
@@ -219,13 +223,13 @@ export default class BerlinMap{
             that.placesPoints = aFeatures;
             $('#visited-pool-count').text(been);
             $('#all-pool-count').text(jsonObj.length);
-            $('#last-visited-pool').text(jsonObj[mostRecentIndex]["Name"] + " am " + jsonObj[mostRecentIndex]["Besucht am"]);
+            $('#last-visited-pool').text(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.name.field] + " am " + jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field]);
             that.setShortestPeopleDistance();
             
           }else{
             for (var i=0; i< jsonObj.length; i++){
               var obj = jsonObj[i];
-              const lonlat = Helper.dmsToDecimal(obj["Location"]);
+              const lonlat = Helper.dmsToDecimal(obj[that.main.jsonLoader.data.person.location.field]);
               var oFeature = new Feature({
                   geometry: new Point(
                       fromLonLat([lonlat["longitude"],lonlat["latitude"]]),
@@ -276,7 +280,7 @@ export default class BerlinMap{
       if(that.shortestPeopleDistance.index !== null){
         let color = this.main.frontend.getColorByType("Am nächsten Unbesucht")
         this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
-        $('#next-visit-pool').text(this.placesPoints[that.shortestPeopleDistance.index].attributes["Name"]);
+        $('#next-visit-pool').text(this.placesPoints[that.shortestPeopleDistance.index].attributes[[that.main.jsonLoader.data.points.name.field]]);
       }
     }
 
