@@ -44,7 +44,7 @@ export default class BerlinMap{
     init(){
         const raster = [
           new TileLayer({
-            source: new OSM(),
+            source: new OSM({reprojectionErrorThreshold: 1000, wrapX: false, zDirection: 500}),
             // source: new StadiaMaps({
             //   layer: 'stamen_watercolor',
             //   // apiKey: 'OPTIONAL'
@@ -62,20 +62,13 @@ export default class BerlinMap{
         const vector = new VectorLayer({
           source: this.source
         });
-        
-        // Limit multi-world panning to one world east and west of the real world.
-        // Geometry coordinates have to be within that range.
-        const extent = get('EPSG:3857').getExtent().slice();
-        extent[0] += extent[0];
-        extent[2] += extent[2];
-        console.log(extent)
+      
         const map = new Map({
             layers: raster.concat([vector]),
             target: 'map',
             view: new View({
                 center: transform([13.414951, 52.507783], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 11,
-                // extent,
             }),
         });
 

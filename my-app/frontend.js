@@ -4,50 +4,7 @@ export default class Frontend{
     main
 
     //last one is also default
-    legend = [
-        {
-            typ: "Menschen",
-            color: "#ffa500aa",
-            enabled: true,
-            special: true
-        },
-        {
-            typ: "Besucht",
-            color: "#00E626aa",
-            enabled: true,
-            special: true
-        },
-        {
-            typ: "Am nächsten Unbesucht",
-            color: "#ff0000aa",
-            enabled: true,
-            special: true
-        },
-        {
-            typ: "Hallenbad",
-            color: "#00FFFFaa",
-            enabled: true,
-            special: false
-        },
-        {
-            typ: "Kombibad",
-            color: "#e337deaa",
-            enabled: true,
-            special: false
-        },
-        {
-            typ: "Freibad",
-            color: "#9999FFaa",
-            enabled: true,
-            special: false
-        },
-        {
-            typ: "See",
-            color: "#1940FFaa",
-            enabled: true,
-            special: false
-        },
-    ]
+    legend
 
     legendElement 
 
@@ -55,6 +12,8 @@ export default class Frontend{
         let that = this;
         this.main = main;
         this.legendElement = $('.legend')
+
+        this.legend = this.main.jsonLoader.data.legend;
 
         let i = 0;
         this.legend.forEach(element => {
