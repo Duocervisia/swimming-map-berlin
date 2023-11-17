@@ -12,6 +12,7 @@ export default class Frontend{
         let that = this;
         this.main = main;
         this.legendElement = $('.legend')
+        console.log(this.main.jsonLoader)
 
         this.legend = this.main.jsonLoader.data.legend;
 

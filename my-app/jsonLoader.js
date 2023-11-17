@@ -8,13 +8,18 @@ export default class JsonLoader{
     data 
     constructor(main){
         this.main = main;
+        this.load();
+    }
+    
+    async load(){
         let that = this;
+        const response = await fetch("/public/data.json");
+        const file = await response.json();
 
-        $.getJSON( "assets/data.json", function( data ) {
-            that.data = data
-            that.main.frontend = new Frontend(that.main);
-            that.main.berlinMap = new BerlinMap(that.main);
-            that.main.berlinMap.load();
-        });
+        this.data = file;
+
+        that.main.frontend = new Frontend(that.main);
+        that.main.berlinMap = new BerlinMap(that.main);
+        that.main.berlinMap.load();
     }
 }

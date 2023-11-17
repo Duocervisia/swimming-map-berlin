@@ -4,7 +4,6 @@ import BerlinMap from './berlinMap.js'
 import Frontend from './frontend.js'
 import JsonLoader from './jsonLoader.js'
 
-
 export default class Main{
   frontend
   berlinMap
@@ -12,7 +11,9 @@ export default class Main{
 
   constructor(){
     this.jsonLoader = new JsonLoader(this);
-  
+    // this.frontend = new Frontend(this);
+    // this.berlinMap = new BerlinMap(this);
+    // this.berlinMap.load();
   }
 }
 
