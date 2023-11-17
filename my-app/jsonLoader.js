@@ -10,10 +10,10 @@ export default class JsonLoader{
         this.main = main;
         this.load();
     }
-    
+
     async load(){
         let that = this;
-        const response = await fetch("/public/data.json");
+        const response = await fetch("/data.json");
         const file = await response.json();
 
         this.data = file;
