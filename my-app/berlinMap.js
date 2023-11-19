@@ -27,12 +27,15 @@ export default class BerlinMap{
       distance: null
     }
 
-    pointRadius = $(window).width() < 1200 ? 18 : 7
-    pointBorderWidth = $(window).width() < 1200 ? 3 : 2
-    lineThinkness = $(window).width() < 1200 ? 8 : 4
+    pointRadius
+    pointBorderWidth
+    lineThinkness
 
     constructor(main){
       this.main = main;
+      this.pointRadius = $(window).width() < 1200 ? this.main.jsonLoader.data.map.mobile.pointRadius : this.main.jsonLoader.data.map.desktop.pointRadius
+      this.pointBorderWidth = $(window).width() < 1200 ? this.main.jsonLoader.data.map.mobile.pointBorderWidth : this.main.jsonLoader.data.map.desktop.pointBorderWidth
+      this.lineThinkness = $(window).width() < 1200 ? this.main.jsonLoader.data.map.mobile.lineThinkness : this.main.jsonLoader.data.map.desktop.lineThinkness
       this.init();
       this.setEvents();
        
@@ -68,7 +71,7 @@ export default class BerlinMap{
             target: 'map',
             view: new View({
                 center: transform(this.main.jsonLoader.data.map.center, 'EPSG:4326', 'EPSG:3857'),
-                zoom: this.main.jsonLoader.data.map.zoom,
+                zoom: this.main.jsonLoader.data.map.zoom
             }),
         });
 
@@ -139,7 +142,7 @@ export default class BerlinMap{
             },
             { layerFilter: (layer) => {
                 return (layer.type === new VectorLayer().type) ? true : false;
-            }, hitTolerance: 0})
+            }, hitTolerance: that.main.jsonLoader.data.map.clickAccuracy})
           
             if(!bFeature){
               if(!inTooltipElement){

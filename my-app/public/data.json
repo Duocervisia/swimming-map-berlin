@@ -45,7 +45,18 @@
     ],
     "map" : {
         "center": [13.414951, 52.507783],
-        "zoom" : 11
+        "zoom" : 11,
+        "clickAccuracy": 6,
+        "mobile": {
+            "pointRadius": 20,
+            "pointBorderWidth": 3,
+            "lineThinkness" : 8
+        },
+        "desktop": {
+            "pointRadius": 7,
+            "pointBorderWidth": 2,
+            "lineThinkness" : 4
+        }
     },
     "person": {
         "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHc-Y2YKfzWK8-ODpWG8kBFfObE8DK57Jh6tLc2weQeGR6yU84PgGJkSKyCwsc9dGX1QKD8Dlb28Sw/pub?gid=0&single=true&output=tsv",
