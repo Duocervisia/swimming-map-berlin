@@ -19,6 +19,9 @@ export default class mapBuilder{
     popupOverlay
     main
 
+    sources = []
+    vectors = []
+
     peoplePoints
     peopleLines = [];
     placesPoints = [];
@@ -37,8 +40,21 @@ export default class mapBuilder{
       this.pointBorderWidth = $(window).width() < 1200 ? this.main.jsonLoader.data.map.mobile.pointBorderWidth : this.main.jsonLoader.data.map.desktop.pointBorderWidth
       this.lineThinkness = $(window).width() < 1200 ? this.main.jsonLoader.data.map.mobile.lineThinkness : this.main.jsonLoader.data.map.desktop.lineThinkness
       this.init();
+      // this.initLayers();
       this.setEvents();
        
+    }
+    initLayers(){
+      this.main.jsonLoader.data.legend.forEach(element => {
+        let source = new VectorSource();
+        let vector = new VectorLayer({
+          source: source
+        });
+
+        this.sources.push(source);
+        this.sources.push(vector);
+        this.map.addLayer(vector);
+      });
     }
     async load(){
       await this.loadData(this.main.jsonLoader.data.person.url, true)
