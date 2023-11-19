@@ -14,16 +14,8 @@ export default class JsonLoader{
     async load(){
         let that = this;
 
-        let branch;
+        const branch = import.meta.env.VITE_WEBSITE_TYPE || 'bath';
         console.log(import.meta.env)
-        if (import.meta.env !== 'undefined' && import.meta.env.WEBSITE_TYPE) {
-            // Running on the server (Node.js environment)
-            branch = import.meta.env.WEBSITE_TYPE;
-        } else {
-            // Running in the browser
-            // You might want to set a default value if process.env.WEBSITE_BRANCH is not available
-            branch = 'bath';
-        }
 
         const response = await fetch("/" + branch + "/data.json");
         const file = await response.json();
