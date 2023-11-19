@@ -30,7 +30,7 @@
     ],
     "html":{
         "title" : "Berliner Sehenswürdigkeiten",
-        "favicon" : "/assets/favicon/sightseeing/favicon.ico"
+        "favicon" : "/sightseeing/favicon.ico"
     },
     "map" : {
         "center": [13.414951, 52.507783],

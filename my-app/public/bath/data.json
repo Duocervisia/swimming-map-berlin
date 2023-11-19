@@ -44,7 +44,7 @@
     ],
     "html":{
         "title" : "Berliner Bäder Hunt",
-        "favicon" : "/assets/favicon/bath/favicon.ico"
+        "favicon" : "/bath/favicon.ico"
     },
     "map" : {
         "center": [13.414951, 52.507783],
