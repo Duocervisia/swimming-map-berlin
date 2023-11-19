@@ -208,7 +208,7 @@ export default class BerlinMap{
               if(obj[that.main.jsonLoader.data.points.date.field].length < 8){
                 color = that.main.frontend.getColorByType(obj["Typ"])
               }else{
-                if(mostRecentIndex == null || Helper.parseDateString(obj[that.main.jsonLoader.data.points.date.field]) > Helper.parseDateString(jsonObj[mostRecentIndex]["Besucht am"])){
+                if(mostRecentIndex == null || Helper.parseDateString(obj[that.main.jsonLoader.data.points.date.field]) > Helper.parseDateString(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field])){
                   mostRecentIndex = i
                 }
                 color = that.main.frontend.getColorByType(that.main.jsonLoader.data.points.date.legendType)
@@ -239,7 +239,7 @@ export default class BerlinMap{
                   )
               });
           
-              let color = that.main.frontend.getColorByType("Menschen");
+              let color = that.main.frontend.getColorByTypeAttribute("isPeopleType");
 
              
               oFeature.setStyle(that.getPointStyle(color));
@@ -272,7 +272,7 @@ export default class BerlinMap{
       that.shortestPeopleDistance.distance = null;
 
       that.placesPoints.forEach(element => {
-        if(element.attributes["Besucht am"].length < 8 && element.attributes.enabled){
+        if(element.attributes[that.main.jsonLoader.data.points.date.field].length < 8 && element.attributes.enabled){
           if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
             that.shortestPeopleDistance.index = i
             that.shortestPeopleDistance.distance = element.attributes.totalLength
@@ -281,7 +281,7 @@ export default class BerlinMap{
         i++;
       });
       if(that.shortestPeopleDistance.index !== null){
-        let color = this.main.frontend.getColorByType("Am nächsten Unbesucht")
+        let color = this.main.frontend.getColorByTypeAttribute("isNextVisitType")
         this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
         $('#next-visit-pool').text(this.placesPoints[that.shortestPeopleDistance.index].attributes[[that.main.jsonLoader.data.points.name.field]]);
       }
@@ -313,8 +313,7 @@ export default class BerlinMap{
         if(this.main.frontend.isTypeEnabled(element.attributes["Typ"]) && element.attributes.visited === undefined){
           element.setStyle(this.getPointStyle(element.attributes["color"]));
           element.attributes.enabled = true;
-        }else if(element.attributes.visited !== undefined && element.attributes.visited && this.main.frontend.isTypeEnabled("Besucht")){
-          console.log(element.attributes["Typ"])
+        }else if(element.attributes.visited !== undefined && element.attributes.visited && this.main.frontend.isTypeAttributeEnabled("isVisitedType")){
           element.setStyle(this.getPointStyle(element.attributes["color"]));
         
         }else{

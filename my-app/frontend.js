@@ -12,7 +12,6 @@ export default class Frontend{
         let that = this;
         this.main = main;
         this.legendElement = $('.legend')
-        console.log(this.main.jsonLoader)
 
         this.legend = this.main.jsonLoader.data.legend;
 
@@ -47,9 +46,7 @@ export default class Frontend{
             that.updateElements();
         });
         $('.arrow').on('click', function() {
-            console.log($(this).hasClass("active"))
             if ($(this).hasClass("active")) {
-                console.log(1)
                 $(".stats-content-wrapper").attr("disabled", "")
             }else{
 
@@ -58,16 +55,6 @@ export default class Frontend{
             $(this).toggleClass('active');
 
         });
-        // $(".arrow").on( "click", function() {
-        //     if ($(this).find('.arrow-mask').hasClass("top")) {
-        //         $(this).find('.arrow-mask').removeClass("top")
-        //         $(".stats-content-wrapper").attr("disabled", "")
-        //     }else{
-        //         $(this).find('.arrow-mask').addClass("top")
-        //         $(".stats-content-wrapper").removeAttr("disabled")
-
-        //     }
-        // });
     }
     getColorByType(typ){
         let color = null;
@@ -80,6 +67,25 @@ export default class Frontend{
             color = this.legend[this.legend.length - 1].color
         }
         return color;
+    }
+    getColorByTypeAttribute(attribute){
+        let color = null;
+        this.legend.forEach(element => {
+            if(element[attribute] !== undefined && element[attribute]){
+                color = element.color
+            }
+        });
+        return color;
+
+    }
+    isTypeAttributeEnabled(attribute){
+        let enabled;
+        this.legend.forEach(element => {
+            if(element[attribute] !== undefined && element[attribute]){
+                enabled = element.enabled
+            }
+        });
+        return enabled;
     }
     isTypeEnabled(typ){
         let enabled;

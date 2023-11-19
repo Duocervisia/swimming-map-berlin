@@ -4,43 +4,40 @@
             "typ": "Menschen",
             "color": "#ffa500aa",
             "enabled": true,
-            "special": true
+            "special": true,
+            "isPeopleType": true
         },
         {
             "typ": "Besucht",
             "color": "#00E626aa",
             "enabled": true,
-            "special": true
+            "special": true,
+            "isVisitedType": true
         },
         {
             "typ": "Am nächsten Unbesucht",
             "color": "#ff0000aa",
             "enabled": true,
-            "special": true
+            "special": true,
+            "isNextVisitType": true
         },
         {
             "typ": "Hallenbad",
             "color": "#00FFFFaa",
-            "enabled": true,
-            "special": false
+            "enabled": true
         },
         {
             "typ": "Kombibad",
             "color": "#e337deaa",
-            "enabled": true,
-            "special": false
-        },
+            "enabled": true        },
         {
             "typ": "Freibad",
             "color": "#9999FFaa",
-            "enabled": true,
-            "special": false
-        },
+            "enabled": true        },
         {
             "typ": "See",
             "color": "#1940FFaa",
-            "enabled": true,
-            "special": false
+            "enabled": true
         }
     ],
     "map" : {
