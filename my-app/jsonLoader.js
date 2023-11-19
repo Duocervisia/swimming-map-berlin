@@ -21,7 +21,7 @@ export default class JsonLoader{
         } else {
             // Running in the browser
             // You might want to set a default value if process.env.WEBSITE_BRANCH is not available
-            branch = 'main';
+            branch = 'bath';
         }
 
         const response = await fetch("/" + branch + "/data.json");
