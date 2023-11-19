@@ -1,0 +1,82 @@
+{
+    "legend": [
+        {
+            "typ": "Menschen",
+            "color": "#ffa500aa",
+            "enabled": true,
+            "special": true,
+            "isPeopleType": true
+        },
+        {
+            "typ": "Besucht",
+            "color": "#00E626aa",
+            "enabled": true,
+            "special": true,
+            "isVisitedType": true
+        },
+        {
+            "typ": "Am nächsten Unbesucht",
+            "color": "#ff0000aa",
+            "enabled": true,
+            "special": true,
+            "isNextVisitType": true
+        },
+        {
+            "typ": "Markt",
+            "color": "#00FFFFaa",
+            "enabled": true
+        }
+      
+    ],
+    "html":{
+        "title" : "Berliner Sehenswürdigkeiten",
+        "favicon" : "/assets/favicon/sightseeing/favicon.ico"
+    },
+    "map" : {
+        "center": [13.414951, 52.507783],
+        "zoom" : 11,
+        "clickAccuracy": 6,
+        "mobile": {
+            "pointRadius": 20,
+            "pointBorderWidth": 3,
+            "lineThinkness" : 8
+        },
+        "desktop": {
+            "pointRadius": 7,
+            "pointBorderWidth": 2,
+            "lineThinkness" : 4
+        }
+    },
+    "person": {
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0J013iLDrL-C6UPFbNDN6Ywj3VTF0m_rjZnZq9HeUig5_rpWOzZ-_kkuxH9GNaqnUbLuuMSoWhFgD/pub?output=tsv",
+        "name": {
+            "field": "Name"
+        },
+        "location": {
+            "field": "Location"
+        }
+    },
+    "points" : {
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuglV4SAhum9jnz_Hwb8hYHakioFCUyqxMVSfRXzx8UXVDG9WNPpeKeUz4hYGIX5B4k822QqI0S6q_/pub?output=tsv",
+        "tooltip": {
+            "fieldsToShow":[
+                {
+                    "field": "Typ",
+                    "shownName": "Typ"
+                }
+            ]
+        },
+        "location": {
+            "field": "Location"
+        },
+        "date": {
+            "field": "Besucht am",
+            "shownName": "Besucht am",
+            "legendType": "Besucht"
+        },
+        "name": {
+            "field": "Name"
+        }
+    }
+    
+}

@@ -13,7 +13,18 @@ export default class JsonLoader{
 
     async load(){
         let that = this;
-        const response = await fetch("/data.json");
+
+        let branch;
+        if (typeof process !== 'undefined' && process.env && process.env.WEBSITE_BRANCH) {
+            // Running on the server (Node.js environment)
+            branch = process.env.WEBSITE_BRANCH;
+        } else {
+            // Running in the browser
+            // You might want to set a default value if process.env.WEBSITE_BRANCH is not available
+            branch = 'main';
+        }
+
+        const response = await fetch("/" + branch + "/data.json");
         const file = await response.json();
 
         this.data = file;

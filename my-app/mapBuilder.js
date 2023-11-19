@@ -242,7 +242,9 @@ export default class mapBuilder{
             that.placesPoints = aFeatures;
             $('#visited-count').text(been);
             $('#all-count').text(jsonObj.length);
-            $('#last-visited').text(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.name.field] + " am " + jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field]);
+            if(jsonObj[mostRecentIndex] !== undefined){
+              $('#last-visited').text(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.name.field] + " am " + jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field]);
+            }
             that.setShortestPeopleDistance();
             
           }else{
