@@ -13,7 +13,7 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import Overlay from 'ol/Overlay.js';
 import Helper from './helper.js';
 
-export default class BerlinMap{
+export default class mapBuilder{
     map
     source
     popupOverlay
@@ -224,9 +224,9 @@ export default class BerlinMap{
               aFeatures.push(oFeature)
             }
             that.placesPoints = aFeatures;
-            $('#visited-pool-count').text(been);
-            $('#all-pool-count').text(jsonObj.length);
-            $('#last-visited-pool').text(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.name.field] + " am " + jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field]);
+            $('#visited-count').text(been);
+            $('#all-count').text(jsonObj.length);
+            $('#last-visited').text(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.name.field] + " am " + jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field]);
             that.setShortestPeopleDistance();
             
           }else{
@@ -283,7 +283,7 @@ export default class BerlinMap{
       if(that.shortestPeopleDistance.index !== null){
         let color = this.main.frontend.getColorByTypeAttribute("isNextVisitType")
         this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
-        $('#next-visit-pool').text(this.placesPoints[that.shortestPeopleDistance.index].attributes[[that.main.jsonLoader.data.points.name.field]]);
+        $('#next-visit').text(this.placesPoints[that.shortestPeopleDistance.index].attributes[[that.main.jsonLoader.data.points.name.field]]);
       }
     }
 

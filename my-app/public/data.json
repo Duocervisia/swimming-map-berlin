@@ -29,17 +29,23 @@
         {
             "typ": "Kombibad",
             "color": "#e337deaa",
-            "enabled": true        },
+            "enabled": true        
+        },
         {
             "typ": "Freibad",
             "color": "#9999FFaa",
-            "enabled": true        },
+            "enabled": true        
+        },
         {
             "typ": "See",
             "color": "#1940FFaa",
             "enabled": true
         }
     ],
+    "html":{
+        "title" : "Berliner Bäder Hunt",
+        "favicon" : "/assets/favicon/bath/favicon.ico"
+    },
     "map" : {
         "center": [13.414951, 52.507783],
         "zoom" : 11,

@@ -25,6 +25,9 @@ export default class Frontend{
             i++;
         });
 
+        document.title = this.main.jsonLoader.data.html.title;
+        document.querySelector("link[rel~='icon']").href = this.main.jsonLoader.data.html.favicon
+
         this.setEvents()
     }
     updateElements(){

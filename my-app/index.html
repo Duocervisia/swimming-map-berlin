@@ -2,15 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Berliner Bäder Hunt</title>
+    <title></title>
     <link rel="stylesheet" href="node_modules/ol/ol.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+    <link rel="icon" type="image/x-icon">
   </head>
   <body>
     <div class="custom-wrapper">
@@ -25,9 +22,9 @@
         <div class="stats-content-wrapper" disabled>
           <div>
             <h3>Statistik</h3>
-            <p>Besuchte Bäder: <span id="visited-pool-count">-</span>/<span id="all-pool-count">-</span></p>
-            <p>Zuletzt Besucht: <span id="last-visited-pool">-</span></p>
-            <p>Als nächstes Unbesucht: <span id="next-visit-pool">-</span></p>
+            <p>Besuchte Bäder: <span id="visited-count">-</span>/<span id="all-count">-</span></p>
+            <p>Zuletzt Besucht: <span id="last-visited">-</span></p>
+            <p>Als nächstes Unbesucht: <span id="next-visit">-</span></p>
           </div>
           </div>
         <div class="stats-content-button">
@@ -44,7 +41,7 @@
     </div>
     <script type="module" src="helper.js"></script>
     <script type="module" src="jsonLoader.js"></script>
-    <script type="module" src="berlinMap.js"></script>
+    <script type="module" src="mapBuilder.js"></script>
     <script type="module" src="frontend.js"></script>
     <script type="module" src="main.js"></script>
   </body>

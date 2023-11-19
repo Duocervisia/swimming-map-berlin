@@ -1,5 +1,5 @@
 import $ from "jquery";
-import BerlinMap from './berlinMap.js'
+import mapBuilder from './mapBuilder.js'
 import Frontend from './frontend.js'
 
 export default class JsonLoader{
@@ -19,7 +19,7 @@ export default class JsonLoader{
         this.data = file;
 
         that.main.frontend = new Frontend(that.main);
-        that.main.berlinMap = new BerlinMap(that.main);
+        that.main.berlinMap = new mapBuilder(that.main);
         that.main.berlinMap.load();
     }
 }
