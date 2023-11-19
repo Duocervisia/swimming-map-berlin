@@ -25,8 +25,12 @@
             "typ": "Markt",
             "color": "#00FFFFaa",
             "enabled": true
+        },
+        {
+            "typ": "Museum",
+            "color": "#e337deaa",
+            "enabled": true        
         }
-      
     ],
     "html":{
         "title" : "Berliner Sehenswürdigkeiten",
