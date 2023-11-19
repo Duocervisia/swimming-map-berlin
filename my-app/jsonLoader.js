@@ -15,10 +15,10 @@ export default class JsonLoader{
         let that = this;
 
         let branch;
-        console.log(process)
-        if (typeof process !== 'undefined' && process.env && process.env.WEBSITE_TYPE) {
+        console.log(import.meta.env)
+        if (import.meta.env !== 'undefined' && import.meta.env.WEBSITE_TYPE) {
             // Running on the server (Node.js environment)
-            branch = process.env.WEBSITE_TYPE;
+            branch = import.meta.env.WEBSITE_TYPE;
         } else {
             // Running in the browser
             // You might want to set a default value if process.env.WEBSITE_BRANCH is not available
