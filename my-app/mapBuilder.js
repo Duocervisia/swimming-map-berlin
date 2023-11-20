@@ -63,18 +63,18 @@ export default class mapBuilder{
     init(){
         const raster = [
           new TileLayer({
-            source: new OSM({reprojectionErrorThreshold: 1000, wrapX: false, zDirection: 500}),
-            // source: new StadiaMaps({
-            //   layer: 'stamen_watercolor',
-            //   // apiKey: 'OPTIONAL'
-            // }),
+            // source: new OSM({reprojectionErrorThreshold: 1000, wrapX: false, zDirection: 500}),
+            source: new StadiaMaps({
+              layer: 'stamen_watercolor',
+              // apiKey: 'OPTIONAL'
+            }),
           }),
-          // new TileLayer({
-          //   source: new StadiaMaps({
-          //     layer: 'stamen_terrain_labels',
-          //     // apiKey: 'OPTIONAL'
-          //   }),
-          // })
+          new TileLayer({
+            source: new StadiaMaps({
+              layer: 'stamen_terrain_labels',
+              // apiKey: 'OPTIONAL'
+            }),
+          })
         ] 
           
         this.source = new VectorSource();
