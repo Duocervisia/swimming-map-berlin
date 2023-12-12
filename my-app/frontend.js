@@ -45,10 +45,10 @@ export default class Frontend{
         let that = this;
         $(".legend-element").on( "click", function() {
             that.legend[$( this ).attr("index")].enabled = !that.legend[$( this ).attr("index")].enabled;
-            that.main.berlinMap.selectorChanged();
+            that.main.mapBuilder.selectorChanged();
             that.updateElements();
         });
-        $('.arrow').on('click', function() {
+        $('.arrow-down').on('click', function() {
             if ($(this).hasClass("active")) {
                 $(".stats-content-wrapper").attr("disabled", "")
             }else{
@@ -57,6 +57,29 @@ export default class Frontend{
             }
             $(this).toggleClass('active');
 
+        });
+        $('.arrow.left').on('click', function() {
+            if(that.main.mapBuilder.shortestPeopleDistanceIndex === null){
+                that.main.mapBuilder.shortestPeopleDistanceIndex = 0;
+            }else if(that.main.mapBuilder.shortestPeopleDistanceIndex === 0){
+                that.main.mapBuilder.shortestPeopleDistanceIndex = that.main.mapBuilder.shortestPeopleDistance.length - 1;
+            }else{
+                that.main.mapBuilder.shortestPeopleDistanceIndex -= 1;
+            }
+        
+            that.main.mapBuilder.triggerPointerMoveEvent();
+        });
+        $('.arrow.right').on('click', function() {
+            if(that.main.mapBuilder.shortestPeopleDistanceIndex === null){
+                that.main.mapBuilder.shortestPeopleDistanceIndex = 0;
+            }else if(that.main.mapBuilder.shortestPeopleDistanceIndex + 1 === that.main.mapBuilder.shortestPeopleDistance.length){
+                that.main.mapBuilder.shortestPeopleDistanceIndex = 0;
+            }else{
+                that.main.mapBuilder.shortestPeopleDistanceIndex += 1;
+            }
+            $('.count-index-to-visit').text(that.main.mapBuilder.shortestPeopleDistanceIndex+1)
+
+            that.main.mapBuilder.triggerPointerMoveEvent();
         });
     }
     getColorByType(typ){

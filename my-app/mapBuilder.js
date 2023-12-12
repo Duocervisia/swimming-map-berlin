@@ -25,10 +25,8 @@ export default class mapBuilder{
     peoplePoints
     peopleLines = [];
     placesPoints = [];
-    shortestPeopleDistance = {
-      index: null,
-      distance: null
-    }
+    shortestPeopleDistance = [];
+    shortestPeopleDistanceIndex = null;
 
     pointRadius
     pointBorderWidth
@@ -129,32 +127,8 @@ export default class mapBuilder{
                 return;
               }
               inTooltipElement = true;
-              let text;
 
-              if(feature.attributes[that.main.jsonLoader.data.points.date.field] !== undefined){
-                text = "<h4>"+feature.attributes[that.main.jsonLoader.data.points.name.field]+"</h4>\n";
-                if(feature.attributes[that.main.jsonLoader.data.points.date.field].length >= 8){
-                  text += "<p><b>"+ that.main.jsonLoader.data.points.date.shownName +": " +feature.attributes[that.main.jsonLoader.data.points.date.field] +"</b></p>";
-                }
-                that.main.jsonLoader.data.points.tooltip.fieldsToShow.forEach(element => {
-                  text += "<p>"+ element.shownName +": " +feature.attributes[element.field] +"</p>";
-                });
-                text += "<br>";
-                let totalLength = 0;
-                that.peoplePoints.forEach(peopleFeature => {
-                  let lineFeature = that.addLineBetweenPoints([peopleFeature.getGeometry().getCoordinates(), feature.getGeometry().getCoordinates()])
-                  text += "<p>" +peopleFeature.attributes.Name +": "+ Helper.meterFormatter(lineFeature.getGeometry().getLength()) +"</p>";
-                  that.peopleLines.push(lineFeature);
-                  totalLength += lineFeature.getGeometry().getLength();
-                });
-                text += "<p><b>Summe: " +Helper.meterFormatter(totalLength) +"</b></p>";
-
-              }else{
-                text = "<h4>"+feature.attributes[that.main.jsonLoader.data.person.name.field]+"</h4>\n";
-              }
-              $('.custom-popup')[0].innerHTML = text;
-              $('.custom-popup')[0].hidden = false;
-              that.popupOverlay.setPosition(evt.coordinate);
+              that.showTooltipByElement(feature,evt.coordinate)
             },
             { layerFilter: (layer) => {
                 return (layer.type === new VectorLayer().type) ? true : false;
@@ -174,6 +148,35 @@ export default class mapBuilder{
               });
             }
           }
+    }
+    showTooltipByElement(feature, coordinate){
+      let that = this;
+      let text;
+
+      if(feature.attributes[that.main.jsonLoader.data.points.date.field] !== undefined){
+        text = "<h4>"+feature.attributes[that.main.jsonLoader.data.points.name.field]+"</h4>\n";
+        if(feature.attributes[that.main.jsonLoader.data.points.date.field].length >= 8){
+          text += "<p><b>"+ that.main.jsonLoader.data.points.date.shownName +": " +feature.attributes[that.main.jsonLoader.data.points.date.field] +"</b></p>";
+        }
+        that.main.jsonLoader.data.points.tooltip.fieldsToShow.forEach(element => {
+          text += "<p>"+ element.shownName +": " +feature.attributes[element.field] +"</p>";
+        });
+        text += "<br>";
+        let totalLength = 0;
+        that.peoplePoints.forEach(peopleFeature => {
+          let lineFeature = that.addLineBetweenPoints([peopleFeature.getGeometry().getCoordinates(), feature.getGeometry().getCoordinates()])
+          text += "<p>" +peopleFeature.attributes.Name +": "+ Helper.meterFormatter(lineFeature.getGeometry().getLength()) +"</p>";
+          that.peopleLines.push(lineFeature);
+          totalLength += lineFeature.getGeometry().getLength();
+        });
+        text += "<p><b>Summe: " +Helper.meterFormatter(totalLength) +"</b></p>";
+
+      }else{
+        text = "<h4>"+feature.attributes[that.main.jsonLoader.data.person.name.field]+"</h4>\n";
+      }
+      $('.custom-popup')[0].innerHTML = text;
+      $('.custom-popup')[0].hidden = false;
+      that.popupOverlay.setPosition(coordinate);
     }
     addLineBetweenPoints(points){
       var featureLine = new Feature({
@@ -285,24 +288,29 @@ export default class mapBuilder{
 
     setShortestPeopleDistance(){
       let that = this;
-      let i = 0;
-      that.shortestPeopleDistance.index = null;
-      that.shortestPeopleDistance.distance = null;
 
+      that.shortestPeopleDistanceIndex = null;
+      that.shortestPeopleDistance = []
       that.placesPoints.forEach(element => {
         if(element.attributes[that.main.jsonLoader.data.points.date.field].length < 8 && element.attributes.enabled){
-          if(that.shortestPeopleDistance.index === null || element.attributes.totalLength < that.shortestPeopleDistance.distance){
-            that.shortestPeopleDistance.index = i
-            that.shortestPeopleDistance.distance = element.attributes.totalLength
-          }
+          that.shortestPeopleDistance.push(element)
         }
-        i++;
       });
-      if(that.shortestPeopleDistance.index !== null){
+
+      that.shortestPeopleDistance.sort(function(a, b) {
+        return a.attributes.totalLength - b.attributes.totalLength;
+      });
+
+      if(that.shortestPeopleDistance.length !== 0){
         let color = this.main.frontend.getColorByTypeAttribute("isNextVisitType")
-        this.placesPoints[that.shortestPeopleDistance.index].setStyle(this.getPointStyle(color));
-        $('#next-visit').text(this.placesPoints[that.shortestPeopleDistance.index].attributes[[that.main.jsonLoader.data.points.name.field]]);
+        that.shortestPeopleDistance[0].setStyle(this.getPointStyle(color));
+        $('#next-visit').text(that.shortestPeopleDistance[0].attributes[[that.main.jsonLoader.data.points.name.field]]);
+        $('.count-total-to-visit').text(that.shortestPeopleDistance.length);
+      }else{
+        $('.count-total-to-visit').text("-");
       }
+      $('.count-index-to-visit').text("-");
+
     }
 
     getPointStyle(color){
@@ -341,5 +349,15 @@ export default class mapBuilder{
       });
       this.setShortestPeopleDistance();
     }
-      
+
+    // Function to trigger pointermove event at the coordinates of a point
+    triggerPointerMoveEvent() {
+      $('.count-index-to-visit').text(this.shortestPeopleDistanceIndex+1)
+      const point = this.shortestPeopleDistance[this.shortestPeopleDistanceIndex];
+      this.peopleLines.forEach(line => {
+        this.source.removeFeature(line);
+      });
+      const coordinate = point.getGeometry().getCoordinates();
+      this.showTooltipByElement(point,coordinate)
+    }   
 }

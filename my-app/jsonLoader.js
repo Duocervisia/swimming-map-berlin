@@ -23,7 +23,7 @@ export default class JsonLoader{
         this.data = file;
 
         that.main.frontend = new Frontend(that.main);
-        that.main.berlinMap = new mapBuilder(that.main);
-        that.main.berlinMap.load();
+        that.main.mapBuilder = new mapBuilder(that.main);
+        that.main.mapBuilder.load();
     }
 }

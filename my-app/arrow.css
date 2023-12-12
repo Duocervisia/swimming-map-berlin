@@ -1,4 +1,4 @@
-.arrow{
+.arrow-down{
     width: 1.25em;
     height: 1.25em;
     display: inline-block;
@@ -7,7 +7,7 @@
     cursor: pointer;
 
 }
-.arrow span{
+.arrow-down span{
     top: .5em;
     position: absolute;
     width: .75em;
@@ -16,21 +16,21 @@
     display: inline-block;
     transition: all .2s ease;
 }
-.arrow span:first-of-type{
+.arrow-down span:first-of-type{
     left: 0;
     transform: rotate(45deg);
 }
-.arrow span:last-of-type{
+.arrow-down span:last-of-type{
     right: 0;
     transform: rotate(-45deg);
 }
-.arrow span:first-of-type{
+.arrow-down span:first-of-type{
     left: 0;
     transform: rotate(45deg);
 }
-.arrow.active span:first-of-type{
+.arrow-down.active span:first-of-type{
     transform: rotate(-45deg);
 }
-.arrow.active span:last-of-type{
+.arrow-down.active span:last-of-type{
     transform: rotate(45deg);
 }

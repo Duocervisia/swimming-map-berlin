@@ -4,7 +4,7 @@ import JsonLoader from './jsonLoader.js'
 
 export default class Main{
   frontend
-  berlinMap
+  mapBuilder
   jsonLoader
 
   constructor(){
