@@ -224,9 +224,13 @@ export default class mapBuilder{
 
           
             let color;
-              if(obj[that.main.jsonLoader.data.points.date.field].length < 8){
+              if(obj[that.main.jsonLoader.data.points.closed.field].length !== 0 && obj[that.main.jsonLoader.data.points.date.field].length < 8){
+                console.log(obj)
+                color = that.main.frontend.getColorByType(that.main.jsonLoader.data.points.closed.legendType)
+                oFeature.attributes.closed = true;
+              }else if(obj[that.main.jsonLoader.data.points.date.field].length < 8){
                 color = that.main.frontend.getColorByType(obj["Typ"])
-              }else{
+              } else{
                 if(mostRecentIndex == null || Helper.parseDateString(obj[that.main.jsonLoader.data.points.date.field]) > Helper.parseDateString(jsonObj[mostRecentIndex][that.main.jsonLoader.data.points.date.field])){
                   mostRecentIndex = i
                 }
@@ -292,7 +296,7 @@ export default class mapBuilder{
       that.shortestPeopleDistanceIndex = null;
       that.shortestPeopleDistance = []
       that.placesPoints.forEach(element => {
-        if(element.attributes[that.main.jsonLoader.data.points.date.field].length < 8 && element.attributes.enabled){
+        if(element.attributes[that.main.jsonLoader.data.points.date.field].length < 8 && element.attributes.enabled && element.attributes.closed === undefined){
           that.shortestPeopleDistance.push(element)
         }
       });
@@ -337,6 +341,9 @@ export default class mapBuilder{
     selectorChanged(){
       this.placesPoints.forEach(element => {
         if(this.main.frontend.isTypeEnabled(element.attributes["Typ"]) && element.attributes.visited === undefined){
+          element.setStyle(this.getPointStyle(element.attributes["color"]));
+          element.attributes.enabled = true;
+        }else if(this.main.frontend.isTypeEnabled(element.attributes["Typ"]) && element.attributes.closed === undefined){
           element.setStyle(this.getPointStyle(element.attributes["color"]));
           element.attributes.enabled = true;
         }else if(element.attributes.visited !== undefined && element.attributes.visited && this.main.frontend.isTypeAttributeEnabled("isVisitedType")){

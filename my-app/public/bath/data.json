@@ -2,7 +2,7 @@
     "legend": [
         {
             "typ": "Menschen",
-            "color": "#ffa500aa",
+            "color": "#763b00aa",
             "enabled": true,
             "special": true,
             "isPeopleType": true
@@ -16,10 +16,17 @@
         },
         {
             "typ": "Am nächsten Unbesucht",
-            "color": "#ff0000aa",
+            "color": "#ffa500aa",
             "enabled": true,
             "special": true,
             "isNextVisitType": true
+        },
+        {
+            "typ": "Ausfall",
+            "color": "#ff0000aa",
+            "enabled": true,
+            "special": true,
+            "isClosedType": true
         },
         {
             "typ": "Hallenbad",
@@ -85,6 +92,18 @@
                 {
                     "field": "Bahnlänge",
                     "shownName": "Bahnlänge"
+                },
+                {
+                    "field": "Preis",
+                    "shownName": "Preis"
+                },
+                {
+                    "field": "Pommes",
+                    "shownName": "Pommes"
+                },
+                {
+                    "field": "Ausfall",
+                    "shownName": "Ausfall"
                 }
             ]
         },
@@ -98,6 +117,10 @@
         },
         "name": {
             "field": "Name"
+        },
+        "closed":{
+            "field": "Ausfall",
+            "legendType": "Ausfall"
         }
     }
     

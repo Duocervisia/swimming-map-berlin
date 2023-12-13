@@ -92,6 +92,9 @@ h3{
   border: 1px solid grey;
   background-color: #202124d2;
   padding: .25em;
+  @media only screen and (max-device-width: 768px) {
+    font-size: .5em;
+  }
 }
 .custom-popup h4{
   margin: .5em 0;
