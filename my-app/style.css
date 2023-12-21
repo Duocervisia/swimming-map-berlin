@@ -90,7 +90,7 @@ h3{
   /* position: absolute; */
   border-radius: 5px;
   border: 1px solid grey;
-  background-color: #202124d2;
+  background-color: #202124e5;
   padding: .25em;
   @media only screen and (max-device-width: 768px) {
     font-size: .5em;
