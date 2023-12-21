@@ -82,6 +82,10 @@
         "tooltip": {
             "fieldsToShow":[
                 {
+                    "field": "Bewertung",
+                    "shownName": "Bewertung"
+                },
+                {
                     "field": "Typ",
                     "shownName": "Typ"
                 },
