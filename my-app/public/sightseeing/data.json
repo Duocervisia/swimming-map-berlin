@@ -16,14 +16,14 @@
         },
         {
             "typ": "Am nächsten Unbesucht",
-            "color": "#ffa500aa",
+            "color": "#ff0000aa",
             "enabled": true,
             "special": true,
             "isNextVisitType": true
         },
         {
             "typ": "Ausfall",
-            "color": "#ff0000aa",
+            "color": "#ffa500aa",
             "enabled": true,
             "special": true,
             "isClosedType": true
