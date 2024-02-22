@@ -86,6 +86,10 @@
                     "shownName": "Bewertung"
                 },
                 {
+                    "field": "Links",
+                    "shownName": "Link"
+                },
+                {
                     "field": "Typ",
                     "shownName": "Typ"
                 },

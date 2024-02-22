@@ -149,6 +149,15 @@ export default class mapBuilder{
             }
           }
     }
+    isValidUrl(urlString) {
+	  	var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+	    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+	    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+	    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+	    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+	    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+	  return !!urlPattern.test(urlString);
+	}
     showTooltipByElement(feature, coordinate){
       let that = this;
       let text;
@@ -159,7 +168,11 @@ export default class mapBuilder{
           text += "<p><b>"+ that.main.jsonLoader.data.points.date.shownName +": " +feature.attributes[that.main.jsonLoader.data.points.date.field] +"</b></p>";
         }
         that.main.jsonLoader.data.points.tooltip.fieldsToShow.forEach(element => {
-          text += "<p>"+ element.shownName +": " +feature.attributes[element.field] +"</p>";
+          if(this.isValidUrl(feature.attributes[element.field])){
+            text += "<p>"+ element.shownName +": <a href='"+feature.attributes[element.field] +"' target='_blank' style='color:white'>Here</a></p>";
+          }else{
+            text += "<p>"+ element.shownName +": " +feature.attributes[element.field] +"</p>";
+          }
         });
         text += "<br>";
         let totalLength = 0;
