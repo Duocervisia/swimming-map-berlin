@@ -1,13 +1,14 @@
 # Map Viewer
 This project is a web-based map viewer application that displays points of interest that you might want to visit. The data for this application is pulled from Google Spreadsheets. It includes a legend, statistics section, and navigation controls to interact with the map.
 
+Check out the example website [here](https://berlin-sightseeing-example.netlify.app/) to see the map viewer in action.
+
 ![Map Viewer Website](map-viewer.jpg?raw=true)
 
 ## Table of Contents
 
 - [Features](#features)
 - [Setup](#setup)
-- [Usage](#usage)
 - [License](#license)
 
 ## Features
