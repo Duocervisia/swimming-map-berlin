@@ -14,7 +14,7 @@ export default class JsonLoader{
     async load(){
         let that = this;
 
-        const branch = import.meta.env.VITE_WEBSITE_TYPE || 'bath';
+        const branch = import.meta.env.VITE_WEBSITE_TYPE || 'example';
         console.log(import.meta.env)
 
         const response = await fetch("/" + branch + "/data.json");

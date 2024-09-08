@@ -1,35 +1,35 @@
 {
     "legend": [
         {
-            "typ": "Menschen",
+            "typ": "People",
             "color": "#763b00aa",
             "enabled": true,
             "special": true,
             "isPeopleType": true
         },
         {
-            "typ": "Besucht",
+            "typ": "Visited",
             "color": "#00E626aa",
             "enabled": true,
             "special": true,
             "isVisitedType": true
         },
         {
-            "typ": "Am nächsten Unbesucht",
+            "typ": "Next unvisited",
             "color": "#ff0000aa",
             "enabled": true,
             "special": true,
             "isNextVisitType": true
         },
         {
-            "typ": "Ausfall",
+            "typ": "Closed",
             "color": "#ffa500aa",
             "enabled": true,
             "special": true,
             "isClosedType": true
         },
         {
-            "typ": "Markt",
+            "typ": "Square",
             "color": "#00FFFFaa",
             "enabled": true
         },
@@ -37,15 +37,19 @@
             "typ": "Museum",
             "color": "#e337deaa",
             "enabled": true        
+        },{
+            "typ": "Historic",
+            "color": "#1940FFaa",
+            "enabled": true
         }
     ],
     "html":{
-        "title" : "Berliner Sehenswürdigkeiten",
-        "favicon" : "/sightseeing/favicon.ico"
+        "title" : "Berlin Sightseeing Example",
+        "favicon" : "/example/favicon.ico"
     },
     "map" : {
         "center": [13.414951, 52.507783],
-        "zoom" : 11,
+        "zoom" : 12,
         "clickAccuracy": 6,
         "mobile": {
             "pointRadius": 20,
@@ -58,7 +62,7 @@
             "lineThinkness" : 4
         }
     },
-    "person": {
+    "persons": {
         "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0J013iLDrL-C6UPFbNDN6Ywj3VTF0m_rjZnZq9HeUig5_rpWOzZ-_kkuxH9GNaqnUbLuuMSoWhFgD/pub?output=tsv",
         "name": {
             "field": "Name"
@@ -72,8 +76,8 @@
         "tooltip": {
             "fieldsToShow":[
                 {
-                    "field": "Typ",
-                    "shownName": "Typ"
+                    "field": "Type",
+                    "shownName": "Type"
                 }
             ]
         },
@@ -81,16 +85,16 @@
             "field": "Location"
         },
         "date": {
-            "field": "Besucht am",
-            "shownName": "Besucht am",
-            "legendType": "Besucht"
+            "field": "Visited",
+            "shownName": "Visited",
+            "legendType": "Visited"
         },
         "name": {
             "field": "Name"
         },
         "closed":{
-            "field": "Ausfall",
-            "legendType": "Ausfall"
+            "field": "Closed",
+            "legendType": "Closed"
         }
     }
     

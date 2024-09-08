@@ -55,7 +55,7 @@ export default class mapBuilder{
       });
     }
     async load(){
-      await this.loadData(this.main.jsonLoader.data.person.url, true)
+      await this.loadData(this.main.jsonLoader.data.persons.url, true)
       await this.loadData(this.main.jsonLoader.data.points.url)
     }
     init(){
@@ -182,10 +182,10 @@ export default class mapBuilder{
           that.peopleLines.push(lineFeature);
           totalLength += lineFeature.getGeometry().getLength();
         });
-        text += "<p><b>Summe: " +Helper.meterFormatter(totalLength) +"</b></p>";
+        text += "<p><b>Distance: " +Helper.meterFormatter(totalLength) +"</b></p>";
 
       }else{
-        text = "<h4>"+feature.attributes[that.main.jsonLoader.data.person.name.field]+"</h4>\n";
+        text = "<h4>"+feature.attributes[that.main.jsonLoader.data.persons.name.field]+"</h4>\n";
       }
       $('.custom-popup')[0].innerHTML = text;
       $('.custom-popup')[0].hidden = false;
@@ -270,7 +270,7 @@ export default class mapBuilder{
           }else{
             for (var i=0; i< jsonObj.length; i++){
               var obj = jsonObj[i];
-              const lonlat = Helper.dmsToDecimal(obj[that.main.jsonLoader.data.person.location.field]);
+              const lonlat = Helper.dmsToDecimal(obj[that.main.jsonLoader.data.persons.location.field]);
               var oFeature = new Feature({
                   geometry: new Point(
                       fromLonLat([lonlat["longitude"],lonlat["latitude"]]),
