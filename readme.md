@@ -1,9 +1,10 @@
 # Map Viewer
+
+![Map Viewer Website](map-viewer.jpg?raw=true)
+
 This project is a web-based map viewer application that displays points of interest that you might want to visit. The application also gives an indication of which locattion to visit next based on the straight line distance of all peaople to the location. The locations are sorted from closest to furthest. The data for this application is pulled from Google Spreadsheets. It includes a legend, statistics section, and navigation controls to interact with the map.
 
 Check out the example website [here](https://berlin-sightseeing-example.netlify.app/) to see the map viewer in action.
-
-![Map Viewer Website](map-viewer.jpg?raw=true)
 
 ## Table of Contents
 
